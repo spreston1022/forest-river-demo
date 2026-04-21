@@ -1,0 +1,66 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Forest River API",
+    "version": "1.0.0",
+    "description": "Forest River demo API gateway"
+  },
+  "paths": {
+    "/path-1": {
+      "get": {
+        "summary": "Echo endpoint",
+        "description": "Forwards to the echo service. Requires a valid API key.",
+        "operationId": "get-path-1",
+        "tags": ["Echo"],
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlForwardHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "baseUrl": "https://echo.zuplo.io",
+              "forwardSearch": true
+            }
+          },
+          "policies": {
+            "inbound": ["api-key-inbound-policy"]
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful echo response"
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing API key"
+          }
+        }
+      }
+    },
+    "/openapi": {
+      "get": {
+        "summary": "OpenAPI Specification",
+        "description": "Returns the public OpenAPI specification for this gateway.",
+        "operationId": "get-openapi",
+        "tags": ["Meta"],
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "openApiSpecHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "openApiFilePath": "./config/routes.oas.json"
+            }
+          },
+          "policies": {
+            "inbound": []
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OpenAPI specification document"
+          }
+        }
+      }
+    }
+  }
+}

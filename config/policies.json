@@ -1,0 +1,15 @@
+{
+  "policies": [
+    {
+      "name": "api-key-inbound-policy",
+      "policyType": "api-key-inbound",
+      "handler": {
+        "export": "ApiKeyInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "allowUnauthenticatedRequests": false
+        }
+      }
+    }
+  ]
+}
